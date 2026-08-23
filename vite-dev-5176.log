@@ -1,0 +1,45 @@
+
+> inventory-management-system@0.0.1 dev
+> vite --host 127.0.0.1 --port 5176
+
+
+  [32m[1mVITE[22m v6.3.5[39m  [2mready in [0m[1m563[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://127.0.0.1:[1m5176[22m/[39m
+[2m8:21:54 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/app/types/inventory.ts[22m
+[2m8:21:54 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/styles/index.css, /@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\contexts\AuthContext.tsx, /@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx, /@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\components\InventoryForm.tsx, /@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\components\CategoryManagement.tsx[22m
+[2m8:21:54 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/styles/index.css, /@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx[22m
+[2m8:21:54 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\components\InventoryForm.tsx, /src/styles/index.css[22m
+[2m8:21:54 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx, /src/styles/index.css[22m
+[2m8:21:54 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\components\InventoryTable.tsx, /src/styles/index.css[22m
+[2m8:37:10 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\components\InventoryTable.tsx, /src/styles/index.css[22m
+[2m8:37:10 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx, /src/styles/index.css[22m
+[2m8:56:16 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx, /src/styles/index.css[22m
+[2m9:18:06 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\components\InventoryStats.tsx, /src/styles/index.css[22m
+[2m9:19:08 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\components\InventoryTable.tsx, /src/styles/index.css[22m
+[2m9:20:52 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx, /src/styles/index.css[22m
+[2m9:21:44 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\components\InventoryForm.tsx, /src/styles/index.css[22m
+[2m8:19:15 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx, /src/styles/index.css[22m
+[2m8:19:26 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\components\InventoryStats.tsx, /src/styles/index.css[22m
+[2m9:38:57 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx, /src/styles/index.css[22m
+[2m9:55:25 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx, /src/styles/index.css[22m
+[2m10:08:02 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx, /src/styles/index.css[22m
+[2m10:13:04 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\components\InventoryTable.tsx, /src/styles/index.css[22m
+[2m10:14:01 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx, /src/styles/index.css[22m
+[2m10:22:16 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\components\InventoryTable.tsx, /src/styles/index.css[22m
+[2m10:22:40 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx, /src/styles/index.css[22m
+[2m10:28:55 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\components\InventoryTable.tsx, /src/styles/index.css[22m
+[2m10:32:13 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\components\InventoryTable.tsx, /src/styles/index.css[22m
+[2m10:37:23 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx, /src/styles/index.css[22m
+[2m10:37:30 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Login.tsx, /src/styles/index.css[22m
+[2m10:37:41 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\components\ProtectedRoute.tsx, /src/styles/index.css[22m
+[2m7:54:18 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\components\InventoryTable.tsx, /src/styles/index.css[22m
+[2m7:54:53 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\components\InventoryTable.tsx, /src/styles/index.css[22m
+[2m7:55:23 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx, /src/styles/index.css[22m
+[2m7:55:41 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx, /src/styles/index.css[22m
+[2m8:09:55 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx, /src/styles/index.css[22m
+[2m8:11:46 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\components\InventoryTable.tsx, /src/styles/index.css[22m
+[2m8:12:40 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx, /src/styles/index.css[22m
+[2m8:17:02 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\components\InventoryTable.tsx, /src/styles/index.css[22m
+[2m8:17:09 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx, /src/styles/index.css[22m
+[2m8:19:09 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/C:\Users\darma\OneDrive\Escritorio\Code\Inventory Management System\src\app\pages\Dashboard.tsx, /src/styles/index.css[22m
