@@ -10,17 +10,23 @@ interface InventoryFormProps {
   onClose: () => void;
 }
 
+type InventoryFormState = Omit<InventoryFormData, 'quantity' | 'minQuantity' | 'price'> & {
+  quantity: number | '';
+  minQuantity: number | '';
+  price: number | '';
+};
+
 export function InventoryForm({ item, onSubmit, onClose }: InventoryFormProps) {
   const { categories } = useCategories();
-  const [formData, setFormData] = useState<InventoryFormData>({
+  const [formData, setFormData] = useState<InventoryFormState>({
     name: '',
     sku: '',
     barcode: '',
     category: categories[0] || 'Electronics',
     location: '',
-    quantity: 0,
-    minQuantity: 0,
-    price: 0,
+    quantity: '',
+    minQuantity: '',
+    price: '',
     supplier: '',
     expiryDate: undefined,
   });
@@ -46,7 +52,14 @@ export function InventoryForm({ item, onSubmit, onClose }: InventoryFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    if (formData.quantity === '' || formData.minQuantity === '' || formData.price === '') return;
+
+    onSubmit({
+      ...formData,
+      quantity: Number(formData.quantity),
+      minQuantity: Number(formData.minQuantity),
+      price: Number(formData.price),
+    });
   };
 
   const handleScanComplete = (code: string) => {
@@ -197,8 +210,10 @@ export function InventoryForm({ item, onSubmit, onClose }: InventoryFormProps) {
               <input
                 type="number"
                 min="0"
+                step="any"
+                required
                 value={formData.quantity}
-                onChange={(e) => setFormData({ ...formData, quantity: parseInt(e.target.value) || 0 })}
+                onChange={(e) => setFormData({ ...formData, quantity: e.target.value === '' ? '' : parseFloat(e.target.value) })}
                 className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 focus:border-transparent focus:ring-2 focus:ring-sky-500"
               />
             </div>
@@ -210,8 +225,10 @@ export function InventoryForm({ item, onSubmit, onClose }: InventoryFormProps) {
               <input
                 type="number"
                 min="0"
+                step="any"
+                required
                 value={formData.minQuantity}
-                onChange={(e) => setFormData({ ...formData, minQuantity: parseInt(e.target.value) || 0 })}
+                onChange={(e) => setFormData({ ...formData, minQuantity: e.target.value === '' ? '' : parseFloat(e.target.value) })}
                 className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 focus:border-transparent focus:ring-2 focus:ring-sky-500"
               />
             </div>
@@ -223,9 +240,10 @@ export function InventoryForm({ item, onSubmit, onClose }: InventoryFormProps) {
               <input
                 type="number"
                 min="0"
-                step="0.01"
+                step="any"
+                required
                 value={formData.price}
-                onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
+                onChange={(e) => setFormData({ ...formData, price: e.target.value === '' ? '' : parseFloat(e.target.value) })}
                 className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 focus:border-transparent focus:ring-2 focus:ring-sky-500"
               />
             </div>

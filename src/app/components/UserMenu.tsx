@@ -9,6 +9,7 @@ import {
   LogOut,
   Plus,
   Settings,
+  Shield,
   User,
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
@@ -30,7 +31,7 @@ interface UserMenuProps {
 }
 
 export function UserMenu({ onLogout, compact = false, className }: UserMenuProps) {
-  const { user, currentOrg, organizations, switchOrganization, createOrganization, changePassword, canCreateOrganizations, isRootAdmin } = useAuth();
+  const { user, currentOrg, organizations, switchOrganization, createOrganization, changePassword, canCreateOrganizations, getUserRole, isRootAdmin } = useAuth();
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
@@ -51,6 +52,8 @@ export function UserMenu({ onLogout, compact = false, className }: UserMenuProps
       .map((part) => part[0]?.toUpperCase() ?? '')
       .join('');
   }, [user?.email, user?.name]);
+
+  const isAdmin = isRootAdmin || (currentOrg ? getUserRole(currentOrg.id) === 'admin' : false);
 
   const handleCreateOrg = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -106,7 +109,7 @@ export function UserMenu({ onLogout, compact = false, className }: UserMenuProps
             )}
           >
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-100 text-sm font-semibold text-sky-700">
-              {initials}
+              {isAdmin ? <Shield className="h-5 w-5" aria-label="Admin" /> : initials}
             </div>
             <div className={cn('min-w-0', compact ? 'block flex-1' : 'hidden sm:block')}>
               <div className="truncate text-sm font-medium text-slate-900">
@@ -124,13 +127,13 @@ export function UserMenu({ onLogout, compact = false, className }: UserMenuProps
           <DropdownMenuLabel className="rounded-xl px-3 py-3">
             <div className="flex items-start gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-100 text-sky-700">
-                <User className="h-5 w-5" />
+                {isAdmin ? <Shield className="h-5 w-5" aria-label="Admin" /> : <User className="h-5 w-5" />}
               </div>
               <div className="min-w-0">
                 <p className="truncate text-sm font-semibold text-slate-900">{user?.name ?? 'Signed in user'}</p>
                 <p className="truncate text-xs text-slate-500">{user?.email}</p>
                 <p className="mt-1 text-xs font-medium text-amber-700">
-                  {isRootAdmin ? 'Root Admin' : 'Read access by default'}
+                  {isAdmin ? 'Edition access' : 'Read access by default'}
                 </p>
                 {currentOrg && (
                   <p className="mt-1 truncate text-xs font-medium text-sky-700">

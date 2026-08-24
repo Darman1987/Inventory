@@ -1,5 +1,6 @@
 import { ReactNode, useState } from 'react';
 import {
+  AlertTriangle,
   Edit2,
   Trash2,
   AlertCircle,
@@ -15,6 +16,16 @@ import {
   FileSpreadsheet,
 } from 'lucide-react';
 import { InventoryItem } from '../types/inventory';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from './ui/alert-dialog';
 
 type StockFilter = 'all' | 'low-stock' | 'in-stock' | 'expiring-soon' | 'needs-order';
 type SortField = 'name' | 'quantity' | 'price' | 'category' | 'supplier' | 'lastUpdated' | 'expiryDate';
@@ -42,6 +53,7 @@ interface InventoryTableProps {
   onExportCsv: () => void;
   onExportExcel: () => void;
   canManageInventory: boolean;
+  canDeleteInventory: boolean;
   canManageCategories: boolean;
   isRootAdmin: boolean;
   showExportMenu: boolean;
@@ -73,6 +85,7 @@ export function InventoryTable({
   onExportCsv,
   onExportExcel,
   canManageInventory,
+  canDeleteInventory,
   canManageCategories,
   isRootAdmin,
   showExportMenu,
@@ -82,15 +95,10 @@ export function InventoryTable({
   onDelete,
 }: InventoryTableProps) {
   const [showMobileControls, setShowMobileControls] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<InventoryItem | null>(null);
 
   const handleDelete = (item: InventoryItem) => {
-    const shouldDelete = window.confirm(
-      `Are you sure you want to delete "${item.name}"?\n\nThis action cannot be undone.`,
-    );
-
-    if (shouldDelete) {
-      onDelete(item.id);
-    }
+    setItemToDelete(item);
   };
 
   const formatDate = (dateString: string) => {
@@ -373,13 +381,15 @@ export function InventoryTable({
                   >
                     Edit
                   </button>
-                  <button
-                    onClick={() => handleDelete(item)}
-                    className="flex-1 rounded-xl bg-white px-3 py-2 text-sm font-medium text-red-600 ring-1 ring-red-200 transition-colors hover:bg-red-50"
-                    title="Delete"
-                  >
-                    Delete
-                  </button>
+                  {canDeleteInventory && (
+                    <button
+                      onClick={() => handleDelete(item)}
+                      className="flex-1 rounded-xl bg-white px-3 py-2 text-sm font-medium text-red-600 ring-1 ring-red-200 transition-colors hover:bg-red-50"
+                      title="Delete"
+                    >
+                      Delete
+                    </button>
+                  )}
                 </div>
               )}
             </article>
@@ -464,13 +474,15 @@ export function InventoryTable({
                         >
                           <Edit2 className="h-4 w-4" />
                         </button>
-                        <button
-                          onClick={() => handleDelete(item)}
-                          className="rounded-xl p-2 text-red-600 transition-colors hover:bg-red-50"
-                          title="Delete"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
+                        {canDeleteInventory && (
+                          <button
+                            onClick={() => handleDelete(item)}
+                            className="rounded-xl p-2 text-red-600 transition-colors hover:bg-red-50"
+                            title="Delete"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        )}
                       </div>
                     ) : (
                       <span className="text-sm text-slate-400">View only</span>
@@ -489,6 +501,41 @@ export function InventoryTable({
           <p>No items found</p>
         </div>
       )}
+
+      <AlertDialog
+        open={itemToDelete !== null}
+        onOpenChange={(open) => {
+          if (!open) setItemToDelete(null);
+        }}
+      >
+        <AlertDialogContent className="rounded-2xl border-slate-200 bg-white p-5 sm:rounded-3xl sm:p-6">
+          <AlertDialogHeader className="text-left">
+            <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-2xl bg-red-100 text-red-600">
+              <AlertTriangle className="h-6 w-6" />
+            </div>
+            <AlertDialogTitle className="text-xl text-slate-900">Delete inventory item?</AlertDialogTitle>
+            <AlertDialogDescription className="text-left leading-6 text-slate-600">
+              {itemToDelete
+                ? `Are you sure you want to delete "${itemToDelete.name}"? This action cannot be undone.`
+                : 'This action cannot be undone.'}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="mt-2 sm:mt-0">
+            <AlertDialogCancel className="mt-0 rounded-xl border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (itemToDelete) onDelete(itemToDelete.id);
+                setItemToDelete(null);
+              }}
+              className="rounded-xl bg-red-600 text-white hover:bg-red-700 focus:ring-red-500"
+            >
+              Delete item
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

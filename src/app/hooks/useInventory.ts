@@ -42,7 +42,7 @@ function normalizeInventoryItem(item: InventoryItem | (Omit<InventoryItem, 'loca
 }
 
 export function useInventory() {
-  const { currentOrg, canManageOrganization } = useAuth();
+  const { currentOrg, canManageOrganization, canViewOrganization } = useAuth();
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -134,7 +134,7 @@ export function useInventory() {
   };
 
   const addItem = async (formData: InventoryFormData) => {
-    if (!currentOrg || !canManageOrganization(currentOrg.id)) return false;
+    if (!currentOrg || !canViewOrganization(currentOrg.id)) return false;
 
     if (useDemoMode || !supabase) {
       const newItem: InventoryItem = {
@@ -174,7 +174,7 @@ export function useInventory() {
   };
 
   const updateItem = async (id: string, formData: InventoryFormData) => {
-    if (!currentOrg || !canManageOrganization(currentOrg.id)) return false;
+    if (!currentOrg || !canViewOrganization(currentOrg.id)) return false;
 
     if (useDemoMode || !supabase) {
       const updatedItems = items.map((item) =>

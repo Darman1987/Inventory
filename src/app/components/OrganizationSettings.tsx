@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { KeyRound, Wand2, X, Users, Shield, User as UserIcon, Lock, UserRoundPlus } from 'lucide-react';
+import { ChevronDown, KeyRound, Wand2, X, Users, Shield, User as UserIcon, Lock, UserRoundPlus } from 'lucide-react';
 import { OrganizationMemberWithUser, OrganizationRole, useAuth } from '../contexts/AuthContext';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
 
 interface OrganizationSettingsProps {
-  onClose: () => void;
 }
 
 export function OrganizationSettings({ onClose }: OrganizationSettingsProps) {
@@ -22,6 +22,7 @@ export function OrganizationSettings({ onClose }: OrganizationSettingsProps) {
   const [newUserEmail, setNewUserEmail] = useState('');
   const [newUserPassword, setNewUserPassword] = useState('');
   const [newUserRole, setNewUserRole] = useState<OrganizationRole>('user');
+  const [isCreateUserOpen, setIsCreateUserOpen] = useState(false);
   const [pendingRoleChanges, setPendingRoleChanges] = useState<Record<string, OrganizationRole>>({});
   const [passwordTarget, setPasswordTarget] = useState<OrganizationMemberWithUser | null>(null);
   const [rootPassword, setRootPassword] = useState('');
@@ -202,12 +203,25 @@ export function OrganizationSettings({ onClose }: OrganizationSettingsProps) {
           )}
 
           {canManageMembers && (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <div className="flex items-center gap-2 mb-3">
-                <UserRoundPlus className="w-5 h-5 text-blue-600" />
-                <h3 className="font-medium text-gray-900">Create User Account</h3>
-              </div>
-              <form onSubmit={handleCreateUser} className="space-y-3">
+            <Collapsible
+              open={isCreateUserOpen}
+              onOpenChange={setIsCreateUserOpen}
+              className="rounded-lg border border-blue-200 bg-blue-50 p-4"
+            >
+              <CollapsibleTrigger asChild>
+                <button
+                  type="button"
+                  className="flex w-full items-center justify-between gap-3 text-left"
+                >
+                  <span className="flex items-center gap-2">
+                    <UserRoundPlus className="h-5 w-5 text-blue-600" />
+                    <span className="font-medium text-gray-900">Create User Account</span>
+                  </span>
+                  <ChevronDown className={`h-5 w-5 text-blue-600 transition-transform ${isCreateUserOpen ? 'rotate-180' : ''}`} />
+                </button>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="pt-3">
+                <form onSubmit={handleCreateUser} className="space-y-3">
                 <div className="grid gap-3 md:grid-cols-2">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
@@ -235,7 +249,7 @@ export function OrganizationSettings({ onClose }: OrganizationSettingsProps) {
                 <div className="grid gap-3 md:grid-cols-[1fr_160px]">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Temporary Password</label>
-                    <div className="flex gap-2">
+                    <div className="flex flex-col gap-2 sm:flex-row">
                       <div className="relative flex-1">
                         <KeyRound className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
                         <input
@@ -251,10 +265,10 @@ export function OrganizationSettings({ onClose }: OrganizationSettingsProps) {
                       <button
                         type="button"
                         onClick={generatePassword}
-                        className="inline-flex items-center justify-center gap-2 px-3 py-2 border border-blue-200 bg-white text-blue-700 rounded-lg hover:bg-blue-100 transition-colors"
+                        className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-blue-200 bg-white px-3 py-2 text-blue-700 transition-colors hover:bg-blue-100 sm:w-auto"
                       >
                         <Wand2 className="h-4 w-4" />
-                        Generate
+                        Generate password
                       </button>
                     </div>
                   </div>
@@ -276,11 +290,12 @@ export function OrganizationSettings({ onClose }: OrganizationSettingsProps) {
                 >
                   Create User
                 </button>
-              </form>
-              <p className="text-xs text-blue-700 mt-2">
-                The user is added directly to this organization. No invitation email is sent.
-              </p>
-            </div>
+                </form>
+                <p className="mt-2 text-xs text-blue-700">
+                  The user is added directly to this organization. No invitation email is sent.
+                </p>
+              </CollapsibleContent>
+            </Collapsible>
           )}
 
           {error && (
@@ -321,7 +336,7 @@ export function OrganizationSettings({ onClose }: OrganizationSettingsProps) {
                       <p className="text-sm text-gray-600">{member.user.email}</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${getRoleBadgeColor(member.user.role === 'root_admin' ? 'root_admin' : member.role)}`}>
                       {getRoleIcon(member.user.role === 'root_admin' ? 'root_admin' : member.role)}
                       {member.user.role === 'root_admin' ? 'Root Admin' : member.role === 'admin' ? 'Admin' : 'User'}
@@ -337,7 +352,7 @@ export function OrganizationSettings({ onClose }: OrganizationSettingsProps) {
                           <option value="admin">Admin</option>
                         </select>
                         {hasPendingRoleChange && (
-                          <>
+                          <div className="flex w-full gap-2 md:w-auto">
                             <button
                               type="button"
                               onClick={() => void handleConfirmRoleChange(member)}
@@ -352,7 +367,7 @@ export function OrganizationSettings({ onClose }: OrganizationSettingsProps) {
                             >
                               Cancel
                             </button>
-                          </>
+                          </div>
                         )}
                       </>
                     )}
@@ -397,7 +412,7 @@ export function OrganizationSettings({ onClose }: OrganizationSettingsProps) {
               </p>
             </div>
             <form onSubmit={handleRootPasswordUpdate} className="space-y-4">
-              <div className="flex gap-2">
+              <div className="flex flex-col gap-2 sm:flex-row">
                 <div className="relative flex-1">
                   <KeyRound className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
                   <input
@@ -413,10 +428,10 @@ export function OrganizationSettings({ onClose }: OrganizationSettingsProps) {
                 <button
                   type="button"
                   onClick={generateRootPassword}
-                  className="inline-flex items-center justify-center gap-2 px-3 py-2 border border-amber-200 bg-white text-amber-700 rounded-lg hover:bg-amber-50 transition-colors"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-amber-200 bg-white px-3 py-2 text-amber-700 transition-colors hover:bg-amber-50 sm:w-auto"
                 >
                   <Wand2 className="h-4 w-4" />
-                  Generate
+                  Generate password
                 </button>
               </div>
               <div className="flex gap-3">

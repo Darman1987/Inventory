@@ -40,7 +40,7 @@ type SortDirection = 'asc' | 'desc';
 export default function Dashboard() {
   const { items, isLoading, addItem, updateItem, deleteItem, getLowStockItems, getTotalValue } = useInventory();
   const { categories: managedCategories } = useCategories();
-  const { logout, currentOrg, canManageOrganization, isRootAdmin } = useAuth();
+  const { logout, currentOrg, canManageOrganization, canViewOrganization, isRootAdmin } = useAuth();
   const navigate = useNavigate();
   const [showForm, setShowForm] = useState(false);
   const [editingItem, setEditingItem] = useState<InventoryItem | undefined>();
@@ -58,6 +58,7 @@ export default function Dashboard() {
   const totalValue = getTotalValue();
 
   const canManageCurrentOrganization = currentOrg ? canManageOrganization(currentOrg.id) : false;
+  const canEditInventory = currentOrg ? canViewOrganization(currentOrg.id) : false;
 
   const categories = useMemo(() => {
     const cats = new Set([...managedCategories, ...items.map(item => item.category)]);
@@ -134,7 +135,7 @@ export default function Dashboard() {
   }, [items, searchQuery, categoryFilter, stockFilter, sortField, sortDirection]);
 
   const handleSubmit = async (formData: InventoryFormData) => {
-    if (!canManageCurrentOrganization) return;
+    if (!canEditInventory) return;
 
     const action = editingItem ? 'updated' : 'created';
     const success = editingItem
@@ -149,13 +150,13 @@ export default function Dashboard() {
   };
 
   const handleEdit = (item: InventoryItem) => {
-    if (!canManageCurrentOrganization) return;
+    if (!canEditInventory) return;
     setEditingItem(item);
     setShowForm(true);
   };
 
   const handleAdd = () => {
-    if (!canManageCurrentOrganization) return;
+    if (!canEditInventory) return;
     setEditingItem(undefined);
     setShowForm(true);
   };
@@ -170,7 +171,7 @@ export default function Dashboard() {
     setShowScanner(false);
 
     const foundItem = items.find(item => item.sku === code);
-    if (foundItem && canManageCurrentOrganization) {
+    if (foundItem && canEditInventory) {
       setTimeout(() => {
         handleEdit(foundItem);
       }, 300);
@@ -390,7 +391,8 @@ export default function Dashboard() {
           onManageCategories={() => setShowCategoryManagement(true)}
           onExportCsv={exportToCSV}
           onExportExcel={exportToExcel}
-          canManageInventory={canManageCurrentOrganization}
+          canManageInventory={canEditInventory}
+          canDeleteInventory={canManageCurrentOrganization}
           canManageCategories={canManageCurrentOrganization}
           isRootAdmin={isRootAdmin}
           showExportMenu={showExportMenu}
