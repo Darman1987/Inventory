@@ -776,6 +776,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!user || !canManageOrganization(organizationId)) return false;
 
     if (isDemoMode || !supabase) {
+      // Prevent role changes for root admins in demo mode
+      const storedUsers = getStoredDemoUsers();
+      const targetUser = storedUsers.find((u) => u.id === userId);
+      if (targetUser?.role === 'root_admin') {
+        return false;
+      }
+
       const membershipsData = localStorage.getItem('organization_members');
       const storedMemberships: OrganizationMember[] = membershipsData ? JSON.parse(membershipsData) : [];
       const updatedMemberships = storedMemberships.map((entry) =>
@@ -787,6 +794,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('organization_members', JSON.stringify(updatedMemberships));
       setMemberships(updatedMemberships);
       return true;
+    }
+
+    // Prevent role changes for root admins in Supabase mode
+    const { data: targetUserProfile } = await supabase
+      .from('profiles')
+      .select('global_role')
+      .eq('id', userId)
+      .maybeSingle();
+
+    if (targetUserProfile?.global_role === 'root_admin') {
+      return false;
     }
 
     const { error } = await supabase

@@ -39,7 +39,11 @@ export function OrganizationSettings({ onClose }: OrganizationSettingsProps) {
   const loadMembers = async () => {
     if (!currentOrg) return;
     const orgMembers = await listOrganizationMembers(currentOrg.id);
-    setMembers(orgMembers.sort((a, b) => a.user.name.localeCompare(b.user.name)));
+    // Filter out root admins if current user is not a root admin
+    const filteredMembers = isRootAdmin
+      ? orgMembers
+      : orgMembers.filter((member) => member.user.role !== 'root_admin');
+    setMembers(filteredMembers.sort((a, b) => a.user.name.localeCompare(b.user.name)));
     setPendingRoleChanges({});
   };
 
@@ -50,6 +54,12 @@ export function OrganizationSettings({ onClose }: OrganizationSettingsProps) {
 
   const handlePendingRoleChange = (member: OrganizationMemberWithUser, nextRole: OrganizationRole) => {
     clearMessages();
+    // Prevent role changes for root admins
+    if (member.user.role === 'root_admin') {
+      setError('Root admins cannot have their role changed.');
+      setTimeout(() => setError(''), 3000);
+      return;
+    }
     setPendingRoleChanges((current) => {
       const next = { ...current };
       if (nextRole === member.role) {
@@ -63,6 +73,13 @@ export function OrganizationSettings({ onClose }: OrganizationSettingsProps) {
 
   const handleConfirmRoleChange = async (member: OrganizationMemberWithUser) => {
     clearMessages();
+
+    // Prevent role changes for root admins
+    if (member.user.role === 'root_admin') {
+      setError('Root admins cannot have their role changed.');
+      setTimeout(() => setError(''), 3000);
+      return;
+    }
 
     const nextRole = pendingRoleChanges[member.userId];
     if (!nextRole || nextRole === member.role) return;
@@ -341,7 +358,7 @@ export function OrganizationSettings({ onClose }: OrganizationSettingsProps) {
                       {getRoleIcon(member.user.role === 'root_admin' ? 'root_admin' : member.role)}
                       {member.user.role === 'root_admin' ? 'Root Admin' : member.role === 'admin' ? 'Admin' : 'User'}
                     </span>
-                    {canManageMembers && (
+                    {canManageMembers && member.user.role !== 'root_admin' && (
                       <>
                         <select
                           value={selectedRole}
