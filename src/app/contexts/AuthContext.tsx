@@ -67,6 +67,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const CURRENT_ORG_STORAGE_KEY = 'current_org_id';
 const DEMO_CUSTOM_USERS_STORAGE_KEY = 'demo_custom_users';
 const DEMO_PASSWORD_OVERRIDES_STORAGE_KEY = 'demo_password_overrides';
+const REMOVED_DEMO_USER_IDS = new Set(['3', '4']);
 
 function normalizeOrganizationRole(role?: LegacyOrganizationRole | null): OrganizationRole {
   return role === 'owner' || role === 'admin' ? 'admin' : 'user';
@@ -164,18 +165,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const membershipsData = localStorage.getItem('organization_members');
     const storedMemberships: Array<OrganizationMember & { role: LegacyOrganizationRole }> = membershipsData ? JSON.parse(membershipsData) : [];
-    const normalizedMemberships: OrganizationMember[] = storedMemberships.map((membership) => ({
+    const organizationsToKeep = allOrgs.filter((org) => !REMOVED_DEMO_USER_IDS.has(org.ownerId));
+    const removedOrganizationIds = new Set(
+      allOrgs.filter((org) => REMOVED_DEMO_USER_IDS.has(org.ownerId)).map((org) => org.id),
+    );
+    const membershipsToKeep = storedMemberships.filter(
+      (membership) => !REMOVED_DEMO_USER_IDS.has(membership.userId) && !removedOrganizationIds.has(membership.organizationId),
+    );
+
+    if (organizationsToKeep.length !== allOrgs.length) {
+      localStorage.setItem('organizations', JSON.stringify(organizationsToKeep));
+    }
+    if (membershipsToKeep.length !== storedMemberships.length) {
+      localStorage.setItem('organization_members', JSON.stringify(membershipsToKeep));
+    }
+
+    const normalizedMemberships: OrganizationMember[] = membershipsToKeep.map((membership) => ({
       ...membership,
       role: normalizeOrganizationRole(membership.role),
     }));
 
     if (currentUser.role === 'root_admin') {
-      return { userOrganizations: allOrgs, userMemberships: normalizedMemberships };
+      return { userOrganizations: organizationsToKeep, userMemberships: normalizedMemberships };
     }
 
     const userMemberships = normalizedMemberships.filter((membership) => membership.userId === currentUser.id);
     const userOrgIds = new Set(userMemberships.map((membership) => membership.organizationId));
-    const userOrganizations = allOrgs.filter((org) => userOrgIds.has(org.id));
+    const userOrganizations = organizationsToKeep.filter((org) => userOrgIds.has(org.id));
 
     return { userOrganizations, userMemberships };
   };

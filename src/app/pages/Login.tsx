@@ -110,12 +110,7 @@ export default function Login() {
               <div className="space-y-1 text-sm text-blue-800">
                 <p><strong>Root Admin:</strong> admin@inventory.com / admin123</p>
                 <p><strong>User:</strong> demo@inventory.com / demo123</p>
-                <p><strong>User:</strong> john@example.com / john123</p>
-                <p><strong>User:</strong> jane@example.com / jane123</p>
               </div>
-              <p className="text-xs text-blue-700 mt-3">
-                Supabase keys are not configured yet, so the app is running in local demo mode.
-              </p>
             </div>
           ) : (
             <div className="mt-6 bg-emerald-50 border border-emerald-200 rounded-lg p-4">
