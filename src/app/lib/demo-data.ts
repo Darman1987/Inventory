@@ -2,7 +2,7 @@ import { InventoryItem } from '../types/inventory';
 
 export const demoUsers = [
   { id: '1', email: 'admin@inventory.com', password: 'admin123', name: 'Admin User', role: 'admin' as const },
-  { id: '2', email: 'demo@inventory.com', password: 'demo123', name: 'Demo User', role: 'user' as const },
+  { id: '2', email: 'demo@inventory.com', password: 'InvDemo#2026!qR7', name: 'Demo User', role: 'user' as const },
 ];
 
 export const demoInventoryItems: InventoryItem[] = [
