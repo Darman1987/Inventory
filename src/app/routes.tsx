@@ -9,17 +9,21 @@ export const router = createBrowserRouter([
     Component: RootLayout,
     children: [
       {
-        path: "/login",
+        path: "login",
         Component: Login,
       },
       {
-        path: "/dashboard",
+        path: "dashboard",
         Component: ProtectedDashboard,
       },
       {
-        path: "/",
+        path: "",
         Component: RedirectToDashboard,
       },
     ],
   },
-]);
+],
+{
+    basename: "/Inventory", // 👈 Add the basename options configuration here
+}
+);
