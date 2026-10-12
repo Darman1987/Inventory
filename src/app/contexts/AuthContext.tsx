@@ -449,9 +449,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await new Promise((resolve) => setTimeout(resolve, 300));
 
       const passwordOverrides = getDemoPasswordOverrides();
+      const normalizedEmail = email.trim().toLowerCase();
+      const normalizedPassword = password.trim();
       const foundUser = getStoredDemoUsers().find((entry) => {
         const effectivePassword = passwordOverrides[entry.id] ?? entry.password;
-        return entry.email === email && effectivePassword === password;
+        return entry.email.trim().toLowerCase() === normalizedEmail && effectivePassword === normalizedPassword;
       });
 
       if (!foundUser) {
